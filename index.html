@@ -2,36 +2,63 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>WebAR Video Test</title>
+    <title>WebAR Video Auto Fix</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.2.1/aframe/build/aframe-ar.js"></script>
-    <style>
-      body { margin: 0; overflow: hidden; }
-    </style>
+    <script src="https://rawcdn.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
   </head>
-  <body>
-    <a-scene 
-      embedded 
-      arjs="sourceType: webcam; debugUIEnabled: false;" 
-      vr-mode-ui="enabled: false">
+  <body style="margin: 0; overflow: hidden;">
+    <a-scene
+      vr-mode-ui="enabled: false"
+      embedded
+      arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
+    >
+      <!-- Video asset -->
+      <a-assets>
+        <video id="myVideo" 
+               src="video.mp4" 
+               autoplay 
+               loop 
+               muted 
+               playsinline 
+               crossorigin="anonymous"></video>
+      </a-assets>
 
       <!-- Marker -->
       <a-marker type="pattern" url="marker.patt">
-        <!-- Video -->
-        <a-video 
-          src="video.mp4" 
-          width="2" 
-          height="1" 
-          position="0 0 0"
-          rotation="180 0 0">
-          autoplay="true"
-          muted="true"
-          loop="true"
-          playsinline="true">
+        <a-video id="arVideo" 
+                 src="#myVideo" 
+                 width="1" 
+                 height="1" 
+                 position="0 0 0">
         </a-video>
       </a-marker>
 
       <a-entity camera></a-entity>
     </a-scene>
+
+    <script>
+      const video = document.getElementById('myVideo');
+      const arVideo = document.getElementById('arVideo');
+
+      // pastikan mute beneran
+      video.muted = true;
+      video.volume = 0;
+
+      video.addEventListener('loadedmetadata', () => {
+        const w = video.videoWidth;
+        const h = video.videoHeight;
+        const ratio = w / h;
+
+        // auto-ratio
+        arVideo.setAttribute('width', ratio);
+        arVideo.setAttribute('height', 1);
+
+        // auto-rotate fallback kalau kebalik
+        if (h > w && video.videoHeight < video.videoWidth) {
+          // kondisi aneh kalau metadata rotasi salah
+          arVideo.setAttribute('rotation', '180 0 0');
+        }
+      });
+    </script>
   </body>
 </html>
