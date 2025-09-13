@@ -1,66 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8">
-    <title>AR Video Test</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebAR Video</title>
 
     <!-- A-Frame & AR.js -->
-    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
-    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/3.3.2/aframe/build/aframe-ar.js"></script>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.2.1/aframe/build/aframe-ar.js"></script>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
+    <!-- CSS kamu tetap dipanggil -->
+    <link rel="stylesheet" href="style.css" />
   </head>
-  <body style="margin: 0; overflow: hidden;">
-    <!-- Video -->
+  <body style="margin:0; overflow:hidden;">
+    <!-- Video asli disiapin tapi disembunyikan -->
     <video
       id="myVideo"
       src="video.mp4"
       loop
-      crossorigin="anonymous"
-      playsinline
-      webkit-playsinline
       muted
+      playsinline
+      style="display:none"
     ></video>
 
-    <!-- AR Scene -->
     <a-scene embedded arjs vr-mode-ui="enabled: false">
-      <a-marker preset="hiro">
-        <!-- Plane untuk mapping video -->
+      <!-- marker tempat video nempel -->
+      <a-marker type="pattern" url="marker.patt">
         <a-video
           src="#myVideo"
+          width="1"
+          height="1.8"
           rotation="-90 0 0"
-          width="1.08"
-          height="1.92"
-          position="0 0 0"
         ></a-video>
       </a-marker>
+
       <a-entity camera></a-entity>
     </a-scene>
-
-    <!-- Kontrol -->
-    <div id="controls">
-      <button onclick="playVideo()">▶ Play</button>
-      <button onclick="pauseVideo()">⏸ Pause</button>
-      <button onclick="unmuteVideo()">🔊 Unmute</button>
-    </div>
-
-    <script>
-      const video = document.getElementById('myVideo');
-
-      function playVideo() {
-        video.play();
-      }
-
-      function pauseVideo() {
-        video.pause();
-      }
-
-      function unmuteVideo() {
-        video.muted = false;
-        video.play();
-      }
-    </script>
   </body>
 </html>
