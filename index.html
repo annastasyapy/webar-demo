@@ -9,11 +9,11 @@
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.2.1/aframe/build/aframe-ar.js"></script>
 
-    <!-- CSS kamu tetap dipanggil -->
+    <!-- CSS kamu -->
     <link rel="stylesheet" href="style.css" />
   </head>
   <body style="margin:0; overflow:hidden;">
-    <!-- Video asli disiapin tapi disembunyikan -->
+    <!-- Video asli, disembunyikan -->
     <video
       id="myVideo"
       src="video.mp4"
@@ -23,8 +23,13 @@
       style="display:none"
     ></video>
 
-    <a-scene embedded arjs vr-mode-ui="enabled: false">
-      <!-- marker tempat video nempel -->
+    <!-- Scene AR -->
+    <a-scene
+      embedded
+      arjs="sourceType: webcam; sourceWidth:1920; sourceHeight:1080; displayWidth:1920; displayHeight:1080; debugUIEnabled: false;"
+      vr-mode-ui="enabled: false"
+    >
+      <!-- Marker target -->
       <a-marker type="pattern" url="marker.patt">
         <a-video
           src="#myVideo"
